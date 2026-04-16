@@ -1,65 +1,98 @@
-# Adaptive Landing Zone
+# Shared Application Gateway — Azure Terraform Workload Module
 
-Engineering hub and development workspace for the Datacom Azure Landing Zone platform.
+Deploys a shared Azure Application Gateway v2 with YAML-driven multi-app configuration, WAF policies, and SSL termination via Key Vault.
 
-## What is this?
+## What this deploys
 
-The Datacom ALZ platform spans 20+ repositories (Terraform modules for connectivity, management, identity, governance, workloads, and automation). This repo aggregates them into a single workspace for AI-assisted development.
+- **Application Gateway v2** (Standard or WAF SKU) via azapi with zone redundancy
+- **YAML-driven app routing** — each application gets its own YAML file defining listeners, backends, probes, and routing rules
+- **WAF policies** — global baseline + per-listener custom policies with OWASP managed rules
+- **SSL termination** via Key Vault integration with User-Assigned Managed Identity
 
-**This is not a deployable product.** To deploy ALZ for a customer, use [azure-tf-platform-agentic-helper](https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-agentic-helper).
-
-## Getting started
-
-### Prerequisites
-
-- [dcrsync](https://github.com/Datacom-Public-Cloud-IaC/dcrsync) installed
-- Git access to Datacom-Public-Cloud-IaC org repos
-
-### Vendor repos for AI context
+## Quick start (PoC)
 
 ```bash
-git clone https://github.com/Datacom-Public-Cloud-IaC/azure-tf-adaptive-landing-zone.git
-cd azure-tf-adaptive-landing-zone
-
-# Choose your scope:
-make vendor          # Baseline deployment repos (7 repos)
-make vendor-iac      # All IaC repos (20+ repos)
-make vendor-tools    # Tooling repos (agentic-helper, doc-gen)
-make vendor-full     # Everything
+git clone https://github.com/Datacom-Public-Cloud-IaC/azure-tf-workload-shared-appgw.git
+cd azure-tf-workload-shared-appgw/iac
+cp environments/examples/poc.tfvars terraform.tfvars   # edit subscription_id
+terraform init && terraform plan -out=tfplan
+terraform apply tfplan
 ```
 
-The vendored repos appear in `vendor/` (symlinked to `~/.cache/alz-dev-vendor`).
+## Deployment modes
 
-### Worktree support
+| | **PoC** (`poc.tfvars`) | **Enterprise** (`default.tfvars`) |
+|---|---|---|
+| Resource group | Creates new | Uses existing (from vending) |
+| VNet / subnet | Creates locally | Uses existing VNet + subnet IDs |
+| NSG | Creates baseline | Uses existing or creates |
+| Frontend | Public only | Public + Private (hybrid) |
+| SSL Key Vault | Optional | Via `ssl_keyvault_principal_ids` |
 
-Install the post-checkout hook to auto-symlink vendor in worktrees:
+## YAML app configuration
 
-```bash
-cp hooks/post-checkout .git/hooks/ && chmod +x .git/hooks/post-checkout
+Each application is a YAML file in the `app_config_dir` directory. The module loads all `*.yaml` files and merges them into the gateway configuration.
+
+```
+iac/environments/examples/apps/
+├── _template.yaml          # Copy this to start a new app
+├── webapp-example.yaml     # HTTPS + HTTP→HTTPS redirect
+└── api-example.yaml        # Path-based routing with /v2/* split
 ```
 
-## Manifests
+See [`_template.yaml`](iac/environments/examples/apps/_template.yaml) for all available fields and [`schemas/app-config.schema.json`](schemas/app-config.schema.json) for validation.
 
-| Manifest | Repos | Use case |
-|----------|-------|----------|
-| `deployment-baseline.yaml` | 7 | Customer ALZ deployments |
-| `development-iac.yaml` | 21 | IaC module development |
-| `development-tools.yaml` | 2 | Toolchain development |
-| `development-full.yaml` | 23 | Full cross-platform reasoning |
+**Rules:**
+- All sub-resource names must be globally unique across all YAML files
+- Routing rule priorities must not conflict between apps
+- WAF config keys must match the corresponding `http_listener` key
 
-## Issue tracking
+## Key variables
 
-All platform issues are tracked centrally here. Use the issue templates to file bugs, features, or tasks — each form includes a repo selector.
+| Variable | Type | Default | Purpose |
+|---|---|---|---|
+| `sku` | `string` | `WAF_v2` | `Standard_v2` or `WAF_v2` — determines WAF availability |
+| `frontend_mode` | `string` | `public_only` | `public_only`, `private_only`, or `public_and_private` |
+| `private_ip_address` | `string` | `null` | Static IP for private frontend (required when mode includes private) |
+| `waf_mode` | `string` | `Detection` | `Detection` for tuning, `Prevention` for enforcement |
+| `zones` | `list(number)` | `[1, 2, 3]` | Availability zones |
+| `autoscale_configuration` | `object` | `{min: 0, max: 2}` | Capacity bounds for autoscaling |
+| `app_config_dir` | `string` | `null` | Path to YAML app config directory (relative to `iac/`) |
+| `ssl_keyvault_principal_ids` | `list(string)` | `[]` | Entra group object IDs for Key Vault certificate access |
+| `use_existing_rg` | `bool` | `true` | `false` = create RG (PoC), `true` = use existing (enterprise) |
+| `create_virtual_network` | `bool` | `false` | `true` = create VNet locally (PoC mode) |
 
-When referencing these issues from PRs in other repos:
-```
-Fixes Datacom-Public-Cloud-IaC/azure-tf-adaptive-landing-zone#123
-```
+Full variable documentation: [`iac/`](iac/) (generated by terraform-docs).
 
-## Related repos
+## Frontend and port names
 
-| Repo | Purpose |
-|------|---------|
-| [azure-tf-platform-agentic-helper](https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-agentic-helper) | ALZ deployment guidance (agents, prompts, skills) |
-| [alz-hld-doc-gen](https://github.com/Datacom-Public-Cloud-IaC/alz-hld-doc-gen) | High-level design document generation |
-| [dcrsync](https://github.com/Datacom-Public-Cloud-IaC/dcrsync) | Multi-repo vendoring tool |
+Reference these names in your YAML `http_listener` blocks:
+
+| Name | Type | Description |
+|---|---|---|
+| `feip-public` | Frontend IP | Public IP (available when `frontend_mode` includes public) |
+| `feip-private` | Frontend IP | Private IP (available when `frontend_mode` includes private) |
+| `fp-http` | Frontend Port | Port 80 |
+| `fp-https` | Frontend Port | Port 443 |
+
+## Tutorials
+
+| Tutorial | Description |
+|---|---|
+| [PoC deployment](docs/tutorials/poc-deployment.md) | Stand up a gateway from scratch in a sandbox subscription |
+| [Enterprise deployment](docs/tutorials/enterprise-deployment.md) | Deploy into a vended landing zone with existing networking |
+| [Adding an application](docs/tutorials/adding-an-application.md) | Write a YAML config file and add an app to the gateway |
+| [SSL and Key Vault](docs/tutorials/ssl-keyvault.md) | Configure Key Vault integration for SSL certificate management |
+
+## Architecture
+
+See [docs/diagrams/](docs/diagrams/) for architecture diagrams.
+
+## ADRs
+
+| ADR | Decision |
+|---|---|
+| [001 — azapi over azurerm](docs/adr/001-azapi-over-azurerm.md) | Use azapi for the App Gateway resource to avoid azurerm limitations |
+| [002 — YAML app config](docs/adr/002-yaml-app-config.md) | YAML files per app instead of HCL variables for multi-team workflows |
+| [003 — WAF policy model](docs/adr/003-waf-policy-model.md) | Global baseline + per-listener overrides for WAF policy binding |
+| [004 — Frontend IP modes](docs/adr/004-frontend-ip-modes.md) | Three-mode frontend (public/private/hybrid) to cover all deployment patterns |
