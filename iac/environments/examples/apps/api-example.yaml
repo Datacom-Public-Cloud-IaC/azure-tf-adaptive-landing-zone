@@ -1,0 +1,86 @@
+# Example: API backend with path-based routing and longer timeouts
+# Coexists alongside other apps on the same shared gateway.
+# Note: priorities must not conflict with other YAML files.
+
+backend_address_pools:
+  beap1:
+    name: api-beap1
+    fqdns:
+      - "api-backend.internal.example.com"
+  beap-v2:
+    name: api-beap-v2
+    fqdns:
+      - "api-v2.internal.example.com"
+
+backend_http_settings:
+  behtst1:
+    name: api-behtst1
+    port: 443
+    protocol: "Https"
+    cookie_based_affinity: "Disabled"
+    request_timeout: 60
+    pick_host_name_from_backend_address: true
+    probe_name: api-probe1
+  behtst-v2:
+    name: api-behtst-v2
+    port: 443
+    protocol: "Https"
+    cookie_based_affinity: "Disabled"
+    request_timeout: 60
+    pick_host_name_from_backend_address: true
+    probe_name: api-probe-v2
+
+http_listener:
+  httplstn-https:
+    name: api-https
+    frontend_ip_configuration_name: feip-public
+    frontend_port_name: fp-https
+    protocol: "Https"
+    host_name: "api.example.com"
+    ssl_certificate_name: ssl-wildcard-example-com
+
+request_routing_rules:
+  rqrt-pathmap:
+    name: api-rqrt-pathmap
+    priority: 200
+    rule_type: "PathBasedRouting"
+    http_listener_name: api-https
+    url_path_map_name: api-urlpathmap
+
+url_path_maps:
+  pathmap1:
+    name: api-urlpathmap
+    default_backend_address_pool_name: api-beap1
+    default_backend_http_settings_name: api-behtst1
+    path_rules:
+      - name: v2-routes
+        paths:
+          - "/v2/*"
+        backend_address_pool_name: api-beap-v2
+        backend_http_settings_name: api-behtst-v2
+
+health_probes:
+  probe1:
+    name: api-probe1
+    protocol: "Https"
+    port: 443
+    path: "/healthz"
+    interval: 30
+    timeout: 30
+    unhealthy_threshold: 3
+    host: "api-backend.internal.example.com"
+    match:
+      status_code:
+        - "200-399"
+  probe-v2:
+    name: api-probe-v2
+    protocol: "Https"
+    port: 443
+    path: "/healthz"
+    interval: 30
+    timeout: 30
+    unhealthy_threshold: 3
+    host: "api-v2.internal.example.com"
+    match:
+      status_code:
+        - "200-399"

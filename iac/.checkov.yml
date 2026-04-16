@@ -1,0 +1,6 @@
+framework:
+  - terraform
+soft-fail: true
+skip-check:
+  # App Gateway requires public IP in many configurations
+  - CKV_AZURE_120

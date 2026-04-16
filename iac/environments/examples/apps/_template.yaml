@@ -1,0 +1,124 @@
+# Template: Copy this file to add a new application to the shared gateway.
+#
+# Rules:
+#   - All resource names must be globally unique across all YAML files
+#   - Routing rule priorities must not conflict with other apps
+#   - SSL certificates can be shared (define once, reference by name)
+#   - WAF config keys must match http_listener keys
+#
+# Frontend IP names: feip-public, feip-private
+# Frontend port names: fp-http (80), fp-https (443)
+
+backend_address_pools:
+  beap1:
+    name: APPNAME-beap1
+    fqdns:
+      - "backend.internal.example.com"
+    # Or use IP addresses:
+    # ip_addresses:
+    #   - "10.0.1.4"
+
+backend_http_settings:
+  behtst1:
+    name: APPNAME-behtst1
+    port: 443
+    protocol: "Https"
+    cookie_based_affinity: "Disabled"
+    request_timeout: 30
+    pick_host_name_from_backend_address: true
+    probe_name: APPNAME-probe1
+    # host_name: "explicit-host.example.com"  # Override pick_host_name
+    # trusted_root_certificate_names:          # For self-signed backend certs
+    #   - "my-root-ca"
+
+http_listener:
+  httplstn-https:
+    name: APPNAME-https
+    frontend_ip_configuration_name: feip-public      # or feip-private
+    frontend_port_name: fp-https
+    protocol: "Https"
+    host_name: "app.example.com"
+    ssl_certificate_name: ssl-wildcard-example-com
+    # host_names:                                     # Multi-site (instead of host_name)
+    #   - "app1.example.com"
+    #   - "app2.example.com"
+
+request_routing_rules:
+  rqrt-https:
+    name: APPNAME-rqrt-https
+    priority: 300                                     # Must be unique across all apps
+    rule_type: "Basic"                                # or PathBasedRouting
+    http_listener_name: APPNAME-https
+    backend_address_pool_name: APPNAME-beap1
+    backend_http_settings_name: APPNAME-behtst1
+    # url_path_map_name: APPNAME-pathmap              # For PathBasedRouting
+
+health_probes:
+  probe1:
+    name: APPNAME-probe1
+    protocol: "Https"
+    port: 443
+    path: "/health"
+    interval: 30
+    timeout: 30
+    unhealthy_threshold: 3
+    pick_host_name_from_backend_http_settings: true
+    match:
+      status_code:
+        - "200-399"
+
+# --- Optional sections ---
+
+# redirect_configurations:
+#   redirect-http:
+#     name: APPNAME-http-to-https
+#     redirect_type: "Permanent"
+#     target_listener_name: APPNAME-https
+#     include_path: true
+#     include_query_string: true
+
+# ssl_certificates:
+#   cert1:
+#     name: ssl-wildcard-example-com
+#     key_vault_secret_id: "https://keyvault.vault.azure.net/secrets/cert-name"
+
+# trusted_root_certificates:
+#   rootca1:
+#     name: my-root-ca
+#     data: "base64-encoded-certificate"
+
+# url_path_maps:
+#   pathmap1:
+#     name: APPNAME-pathmap
+#     default_backend_address_pool_name: APPNAME-beap1
+#     default_backend_http_settings_name: APPNAME-behtst1
+#     path_rules:
+#       - name: api-path
+#         paths: ["/api/*"]
+#         backend_address_pool_name: APPNAME-api-beap
+#         backend_http_settings_name: APPNAME-api-behtst
+
+# waf_config:
+#   httplstn-https:                                  # Key MUST match http_listener key
+#     waf_name_part: "APPNAME"
+#     managed_rules:
+#       managed_rule_set:
+#         owasp:
+#           type: "OWASP"
+#           version: "3.2"
+#     policy_settings:
+#       enabled: true
+#       mode: "Detection"
+#     custom_rules:
+#       rate-limit-api:
+#         name: "RateLimitApi"
+#         priority: 10
+#         rule_type: "RateLimitRule"
+#         action: "Block"
+#         rate_limit_duration: "OneMin"
+#         rate_limit_threshold: 100
+#         match_conditions:
+#           - match_variables: [{ variable_name: "RemoteAddr" }]
+#             operator: "IPMatch"
+#             negation_condition: true
+#             match_values: ["10.0.0.0/8"]

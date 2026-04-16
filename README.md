@@ -79,10 +79,10 @@ Reference these names in your YAML `http_listener` blocks:
 
 | Tutorial | Description |
 |---|---|
-| [PoC deployment](docs/tutorials/poc-deployment.md) | Stand up a gateway from scratch in a sandbox subscription |
-| [Enterprise deployment](docs/tutorials/enterprise-deployment.md) | Deploy into a vended landing zone with existing networking |
-| [Adding an application](docs/tutorials/adding-an-application.md) | Write a YAML config file and add an app to the gateway |
-| [SSL and Key Vault](docs/tutorials/ssl-keyvault.md) | Configure Key Vault integration for SSL certificate management |
+| [Basic HTTP Gateway](docs/tutorials/01-basic-http-gateway.md) | PoC deployment — stand up a gateway from scratch |
+| [SSL/TLS with Key Vault](docs/tutorials/02-ssl-tls-with-keyvault.md) | HTTPS termination via Key Vault certificates |
+| [WAF Configuration](docs/tutorials/03-waf-configuration.md) | Global baseline + per-listener WAF policies |
+| [Private App Gateway](docs/tutorials/04-private-app-gateway.md) | Internal-only gateway with cross-subscription backends |
 
 ## Architecture
 
@@ -92,7 +92,7 @@ See [docs/diagrams/](docs/diagrams/) for architecture diagrams.
 
 | ADR | Decision |
 |---|---|
-| [001 — azapi over azurerm](docs/adr/001-azapi-over-azurerm.md) | Use azapi for the App Gateway resource to avoid azurerm limitations |
-| [002 — YAML app config](docs/adr/002-yaml-app-config.md) | YAML files per app instead of HCL variables for multi-team workflows |
-| [003 — WAF policy model](docs/adr/003-waf-policy-model.md) | Global baseline + per-listener overrides for WAF policy binding |
-| [004 — Frontend IP modes](docs/adr/004-frontend-ip-modes.md) | Three-mode frontend (public/private/hybrid) to cover all deployment patterns |
+| [0001 — YAML-driven config](docs/adr/0001-yaml-driven-multi-app-configuration.md) | YAML files per app for multi-team onboarding without Terraform knowledge |
+| [0002 — azapi over azurerm](docs/adr/0002-azapi-over-azurerm-for-application-gateway.md) | azapi for day-zero ARM features; azurerm for stable supporting resources |
+| [0003 — Shared gateway topology](docs/adr/0003-shared-gateway-deployment-topology.md) | Deploy in Corp > Shared Services subscription with cross-sub backend routing |
+| [0004 — WAF policy layering](docs/adr/0004-waf-policy-layering-strategy.md) | Global baseline (Detection) + per-listener overrides for app-specific tuning |

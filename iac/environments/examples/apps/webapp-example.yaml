@@ -1,0 +1,75 @@
+# Example: Web application with HTTPS and HTTP→HTTPS redirect
+# This demonstrates a typical multi-site hosting pattern.
+
+backend_address_pools:
+  beap1:
+    name: webapp-beap1
+    fqdns:
+      - "webapp.internal.example.com"
+
+backend_http_settings:
+  behtst1:
+    name: webapp-behtst1
+    port: 443
+    protocol: "Https"
+    cookie_based_affinity: "Disabled"
+    request_timeout: 30
+    pick_host_name_from_backend_address: true
+    probe_name: webapp-probe1
+
+http_listener:
+  httplstn-http:
+    name: webapp-http
+    frontend_ip_configuration_name: feip-public
+    frontend_port_name: fp-http
+    protocol: "Http"
+    host_name: "webapp.example.com"
+  httplstn-https:
+    name: webapp-https
+    frontend_ip_configuration_name: feip-public
+    frontend_port_name: fp-https
+    protocol: "Https"
+    host_name: "webapp.example.com"
+    ssl_certificate_name: ssl-wildcard-example-com
+
+request_routing_rules:
+  rqrt-https:
+    name: webapp-rqrt-https
+    priority: 100
+    rule_type: "Basic"
+    http_listener_name: webapp-https
+    backend_address_pool_name: webapp-beap1
+    backend_http_settings_name: webapp-behtst1
+  rqrt-redirect:
+    name: webapp-rqrt-redirect
+    priority: 101
+    rule_type: "Basic"
+    http_listener_name: webapp-http
+    redirect_configuration_name: webapp-http-to-https
+
+health_probes:
+  probe1:
+    name: webapp-probe1
+    protocol: "Https"
+    port: 443
+    path: "/health"
+    interval: 30
+    timeout: 30
+    unhealthy_threshold: 3
+    pick_host_name_from_backend_http_settings: true
+    match:
+      status_code:
+        - "200-399"
+
+redirect_configurations:
+  redirect1:
+    name: webapp-http-to-https
+    redirect_type: "Permanent"
+    target_listener_name: webapp-https
+    include_path: true
+    include_query_string: true
+
+ssl_certificates:
+  cert1:
+    name: ssl-wildcard-example-com
+    key_vault_secret_id: "https://kv-ssl-certs.vault.azure.net/secrets/wildcard-example-com"

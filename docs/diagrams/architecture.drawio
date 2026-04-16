@@ -1,0 +1,322 @@
+<mxfile host="app.diagrams.net" modified="2025-01-01T00:00:00.000Z" agent="draw.io" version="24.0.0" type="device">
+  <diagram id="alz-shared-appgw" name="Shared App Gateway Architecture">
+    <mxGraphModel dx="2400" dy="1600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ============================================================ -->
+        <!-- MANAGEMENT GROUP HIERARCHY (left column)                      -->
+        <!-- ============================================================ -->
+        <mxCell id="mg-title" value="&lt;b&gt;Management Group Hierarchy&lt;/b&gt;" style="text;html=1;fontSize=14;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="220" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Tenant Root -->
+        <mxCell id="mg-tenant" value="Tenant Root Group" style="shape=mxgraph.azure.enterprise;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=11;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="90" y="60" width="50" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Platform MG -->
+        <mxCell id="mg-platform" value="Platform" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="140" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tenant-platform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="mg-tenant" target="mg-platform" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Connectivity sub -->
+        <mxCell id="mg-connectivity" value="Connectivity Sub" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="20" y="190" width="120" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="e-plat-conn" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="mg-platform" target="mg-connectivity" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Corp / Landing Zones MG -->
+        <mxCell id="mg-corp" value="Corp / Landing Zones" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="140" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tenant-corp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="mg-tenant" target="mg-corp" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Shared Services Sub -->
+        <mxCell id="mg-shared" value="Shared Services Sub" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="155" y="190" width="130" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="e-corp-shared" style="edgeStyle=orthogonalEdgeStyle;rounded=0;" edge="1" source="mg-corp" target="mg-shared" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Workload A Sub -->
+        <mxCell id="mg-wla" value="Workload Sub A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="155" y="230" width="130" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="e-corp-wla" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" source="mg-shared" target="mg-wla" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Workload B Sub -->
+        <mxCell id="mg-wlb" value="Workload Sub B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="155" y="270" width="130" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="e-wla-wlb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" source="mg-wla" target="mg-wlb" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- INTERNET / USERS  (top-centre)                                -->
+        <!-- ============================================================ -->
+        <mxCell id="internet" value="Internet / Users" style="shape=mxgraph.azure.cloud;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=12;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="640" y="20" width="70" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="internal" value="Internal Users" style="shape=mxgraph.azure.user;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=11;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="25" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- SHARED SERVICES SUBSCRIPTION  (centre)                        -->
+        <!-- ============================================================ -->
+        <mxCell id="sub-shared" value="&lt;b&gt;Shared Services Subscription&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;verticalAlign=top;align=center;dashed=1;dashPattern=5 5;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="360" y="100" width="640" height="420" as="geometry" />
+        </mxCell>
+
+        <!-- Resource Group -->
+        <mxCell id="rg-appgw" value="&lt;b&gt;rg-shared-appgw-prod-aue&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;verticalAlign=top;align=center;dashed=1;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="380" y="140" width="460" height="360" as="geometry" />
+        </mxCell>
+
+        <!-- App Gateway VNet -->
+        <mxCell id="vnet-appgw" value="VNet: vnet-shared-appgw (10.100.0.0/24)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#4285F4;fontSize=10;verticalAlign=top;align=center;dashed=0;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="400" y="175" width="420" height="305" as="geometry" />
+        </mxCell>
+
+        <!-- App Gateway Subnet -->
+        <mxCell id="snet-appgw" value="snet-appgw (10.100.0.0/25)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=9;verticalAlign=top;align=left;spacingTop=3;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="420" y="210" width="380" height="250" as="geometry" />
+        </mxCell>
+
+        <!-- NSG badge on subnet -->
+        <mxCell id="nsg" value="NSG" style="shape=mxgraph.azure.network_security_group;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=9;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="760" y="215" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Application Gateway -->
+        <mxCell id="appgw" value="Application Gateway&#xa;(WAF_v2 SKU)" style="shape=mxgraph.azure.application_gateway;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=11;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="560" y="270" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Public IP -->
+        <mxCell id="pip" value="feip-public&#xa;(Public IP)" style="shape=mxgraph.azure.public_ip_address;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=9;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="640" y="215" width="35" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="e-pip-appgw" style="rounded=0;strokeColor=#0078D4;" edge="1" source="pip" target="appgw" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Private frontend -->
+        <mxCell id="priv-ip" value="feip-private&#xa;(10.100.0.10)" style="shape=mxgraph.azure.virtual_network;fillColor=#454545;fontColor=#ffffff;strokeColor=none;fontSize=9;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="470" y="218" width="30" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="e-priv-appgw" style="rounded=0;strokeColor=#454545;" edge="1" source="priv-ip" target="appgw" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- WAF Policy -->
+        <mxCell id="waf" value="Global WAF&#xa;Policy" style="shape=mxgraph.azure.azure_firewall;fillColor=#E8710A;fontColor=#ffffff;strokeColor=none;fontSize=9;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="560" y="370" width="45" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e-appgw-waf" style="rounded=0;dashed=1;strokeColor=#E8710A;" edge="1" source="appgw" target="waf" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Managed Identity -->
+        <mxCell id="umi" value="User-Assigned&#xa;Managed Identity" style="shape=mxgraph.azure.managed_identity;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=9;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="440" y="375" width="35" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e-appgw-umi" style="rounded=0;dashed=1;strokeColor=#0078D4;" edge="1" source="appgw" target="umi" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Backend Pool label -->
+        <mxCell id="backend-pool" value="Backend Pool" style="text;html=1;fontSize=10;fontStyle=1;fillColor=#E3F2FD;strokeColor=#1565C0;rounded=1;spacingLeft=4;spacingRight=4;" vertex="1" parent="1">
+          <mxGeometry x="690" y="290" width="90" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="e-appgw-bp" style="rounded=0;strokeColor=#1565C0;fontStyle=1;fontSize=9;" edge="1" source="appgw" target="backend-pool" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- KEY VAULT  (right of shared services)                         -->
+        <!-- ============================================================ -->
+        <mxCell id="kv" value="Key Vault&#xa;(SSL Certs)" style="shape=mxgraph.azure.key_vault;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="870" y="180" width="45" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e-umi-kv" value="cert access" style="rounded=0;dashed=1;strokeColor=#D4AC0D;fontStyle=2;fontSize=9;fontColor=#D4AC0D;" edge="1" source="umi" target="kv" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- CONNECTIVITY / HUB SUBSCRIPTION  (left-centre)                -->
+        <!-- ============================================================ -->
+        <mxCell id="sub-hub" value="&lt;b&gt;Connectivity Subscription (Hub)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;verticalAlign=top;align=center;dashed=1;dashPattern=5 5;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="360" y="560" width="320" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Hub VNet -->
+        <mxCell id="vnet-hub" value="Hub VNet (10.0.0.0/16)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#4285F4;fontSize=10;verticalAlign=top;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="380" y="600" width="280" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Azure Firewall -->
+        <mxCell id="azfw" value="Azure Firewall&#xa;(egress)" style="shape=mxgraph.azure.azure_firewall;fillColor=#E8710A;fontColor=#ffffff;strokeColor=none;fontSize=10;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="410" y="650" width="45" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Private DNS Zones -->
+        <mxCell id="dns" value="Private DNS&#xa;Zones" style="shape=mxgraph.azure.dns;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=9;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="540" y="650" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- VNet Peering: Hub ↔ AppGW VNet -->
+        <mxCell id="e-peering-hub-appgw" value="VNet Peering" style="rounded=0;strokeColor=#4285F4;strokeWidth=2;dashed=1;dashPattern=8 4;fontSize=9;fontStyle=2;fontColor=#4285F4;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" source="vnet-hub" target="vnet-appgw" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- WORKLOAD SUBSCRIPTION A  (right side)                         -->
+        <!-- ============================================================ -->
+        <mxCell id="sub-wla" value="&lt;b&gt;Workload Subscription A&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;verticalAlign=top;align=center;dashed=1;dashPattern=5 5;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="730" y="560" width="260" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Workload A VNet -->
+        <mxCell id="vnet-wla" value="VNet-WL-A (10.1.0.0/16)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#4285F4;fontSize=10;verticalAlign=top;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="750" y="600" width="220" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- VMSS -->
+        <mxCell id="vmss" value="VMSS&#xa;(Web Tier)" style="shape=mxgraph.azure.virtual_machine_scale_set;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="830" y="660" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- VNet Peering: Hub ↔ WL-A -->
+        <mxCell id="e-peering-hub-wla" value="VNet Peering" style="rounded=0;strokeColor=#4285F4;strokeWidth=2;dashed=1;dashPattern=8 4;fontSize=9;fontStyle=2;fontColor=#4285F4;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="vnet-hub" target="vnet-wla" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- WORKLOAD SUBSCRIPTION B  (far right)                          -->
+        <!-- ============================================================ -->
+        <mxCell id="sub-wlb" value="&lt;b&gt;Workload Subscription B&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;verticalAlign=top;align=center;dashed=1;dashPattern=5 5;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="560" width="260" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Workload B VNet -->
+        <mxCell id="vnet-wlb" value="VNet-WL-B (10.2.0.0/16)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#4285F4;fontSize=10;verticalAlign=top;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="600" width="220" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Container App -->
+        <mxCell id="ca" value="Container App&#xa;(Backend)" style="shape=mxgraph.azure.container_apps;fillColor=#0078D4;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="660" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- VNet Peering: Hub ↔ WL-B (via Hub) -->
+        <mxCell id="e-peering-hub-wlb" value="VNet Peering" style="rounded=0;strokeColor=#4285F4;strokeWidth=2;dashed=1;dashPattern=8 4;fontSize=9;fontStyle=2;fontColor=#4285F4;" edge="1" source="vnet-wla" target="vnet-wlb" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- TRAFFIC FLOW ARROWS                                           -->
+        <!-- ============================================================ -->
+
+        <!-- Internet → Public IP -->
+        <mxCell id="e-internet-pip" value="HTTPS" style="rounded=0;strokeColor=#00897B;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#00897B;" edge="1" source="internet" target="pip" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Internal → Private IP -->
+        <mxCell id="e-internal-priv" value="HTTPS&#xa;(internal)" style="rounded=0;strokeColor=#5D4037;strokeWidth=2;fontSize=9;fontStyle=2;fontColor=#5D4037;" edge="1" source="internal" target="priv-ip" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Backend Pool → VMSS (via peering) -->
+        <mxCell id="e-bp-vmss" value="via peering" style="rounded=0;strokeColor=#00897B;strokeWidth=2;fontSize=9;fontStyle=2;fontColor=#00897B;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="backend-pool" target="vmss" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="850" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Backend Pool → Container App (via peering) -->
+        <mxCell id="e-bp-ca" value="via peering" style="rounded=0;strokeColor=#00897B;strokeWidth=2;fontSize=9;fontStyle=2;fontColor=#00897B;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="backend-pool" target="ca" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1155" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LEGEND                                                        -->
+        <!-- ============================================================ -->
+        <mxCell id="legend-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#BDBDBD;fontSize=10;verticalAlign=top;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="340" width="260" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="&lt;b&gt;Legend&lt;/b&gt;" style="text;html=1;fontSize=11;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="30" y="345" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="" style="endArrow=classic;strokeColor=#00897B;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="35" y="385" as="sourcePoint" />
+            <mxPoint x="75" y="385" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg1t" value="External (Internet) traffic" style="text;html=1;fontSize=9;align=left;" vertex="1" parent="1">
+          <mxGeometry x="85" y="375" width="170" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="" style="endArrow=classic;strokeColor=#5D4037;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="35" y="410" as="sourcePoint" />
+            <mxPoint x="75" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg2t" value="Internal (private) traffic" style="text;html=1;fontSize=9;align=left;" vertex="1" parent="1">
+          <mxGeometry x="85" y="400" width="170" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="" style="endArrow=classic;strokeColor=#4285F4;strokeWidth=2;dashed=1;dashPattern=8 4;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="35" y="435" as="sourcePoint" />
+            <mxPoint x="75" y="435" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg3t" value="VNet Peering" style="text;html=1;fontSize=9;align=left;" vertex="1" parent="1">
+          <mxGeometry x="85" y="425" width="170" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="" style="endArrow=classic;strokeColor=#D4AC0D;strokeWidth=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="35" y="460" as="sourcePoint" />
+            <mxPoint x="75" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg4t" value="Identity / certificate access" style="text;html=1;fontSize=9;align=left;" vertex="1" parent="1">
+          <mxGeometry x="85" y="450" width="170" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="" style="endArrow=classic;strokeColor=#E8710A;strokeWidth=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="35" y="485" as="sourcePoint" />
+            <mxPoint x="75" y="485" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg5t" value="Policy / config association" style="text;html=1;fontSize=9;align=left;" vertex="1" parent="1">
+          <mxGeometry x="85" y="475" width="170" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

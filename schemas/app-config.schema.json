@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Shared App Gateway - Application Configuration",
+  "description": "Schema for YAML files that define applications on the shared Application Gateway.",
+  "type": "object",
+  "properties": {
+    "backend_address_pools": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "fqdns": { "type": "array", "items": { "type": "string" } },
+          "ip_addresses": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "backend_http_settings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "port", "protocol"],
+        "properties": {
+          "name": { "type": "string" },
+          "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+          "protocol": { "type": "string", "enum": ["Http", "Https"] },
+          "cookie_based_affinity": { "type": "string", "enum": ["Enabled", "Disabled"] },
+          "request_timeout": { "type": "integer", "minimum": 1 },
+          "pick_host_name_from_backend_address": { "type": "boolean" },
+          "host_name": { "type": "string" },
+          "probe_name": { "type": "string" },
+          "trusted_root_certificate_names": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "http_listener": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "frontend_ip_configuration_name", "frontend_port_name", "protocol"],
+        "properties": {
+          "name": { "type": "string" },
+          "frontend_ip_configuration_name": { "type": "string" },
+          "frontend_port_name": { "type": "string" },
+          "protocol": { "type": "string", "enum": ["Http", "Https"] },
+          "host_name": { "type": "string" },
+          "host_names": { "type": "array", "items": { "type": "string" } },
+          "ssl_certificate_name": { "type": "string" },
+          "require_server_name_indication": { "type": "boolean" }
+        }
+      }
+    },
+    "request_routing_rules": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "priority", "rule_type", "http_listener_name"],
+        "properties": {
+          "name": { "type": "string" },
+          "priority": { "type": "integer", "minimum": 1, "maximum": 20000 },
+          "rule_type": { "type": "string", "enum": ["Basic", "PathBasedRouting"] },
+          "http_listener_name": { "type": "string" },
+          "backend_address_pool_name": { "type": "string" },
+          "backend_http_settings_name": { "type": "string" },
+          "redirect_configuration_name": { "type": "string" },
+          "url_path_map_name": { "type": "string" }
+        }
+      }
+    },
+    "health_probes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "protocol", "path"],
+        "properties": {
+          "name": { "type": "string" },
+          "protocol": { "type": "string", "enum": ["Http", "Https"] },
+          "port": { "type": "integer" },
+          "path": { "type": "string" },
+          "interval": { "type": "integer" },
+          "timeout": { "type": "integer" },
+          "unhealthy_threshold": { "type": "integer" },
+          "pick_host_name_from_backend_http_settings": { "type": "boolean" },
+          "host": { "type": "string" },
+          "match": {
+            "type": "object",
+            "properties": {
+              "status_code": { "type": "array", "items": { "type": "string" } },
+              "body": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "redirect_configurations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "redirect_type"],
+        "properties": {
+          "name": { "type": "string" },
+          "redirect_type": { "type": "string", "enum": ["Permanent", "Found", "SeeOther", "Temporary"] },
+          "target_listener_name": { "type": "string" },
+          "target_url": { "type": "string" },
+          "include_path": { "type": "boolean" },
+          "include_query_string": { "type": "boolean" }
+        }
+      }
+    },
+    "ssl_certificates": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "key_vault_secret_id"],
+        "properties": {
+          "name": { "type": "string" },
+          "key_vault_secret_id": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "trusted_root_certificates": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "data": { "type": "string" }
+        }
+      }
+    },
+    "url_path_maps": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "path_rules"],
+        "properties": {
+          "name": { "type": "string" },
+          "default_backend_address_pool_name": { "type": "string" },
+          "default_backend_http_settings_name": { "type": "string" },
+          "path_rules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "paths"],
+              "properties": {
+                "name": { "type": "string" },
+                "paths": { "type": "array", "items": { "type": "string" } },
+                "backend_address_pool_name": { "type": "string" },
+                "backend_http_settings_name": { "type": "string" },
+                "redirect_configuration_name": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "waf_config": {
+      "type": "object",
+      "description": "Per-listener WAF policies. Keys must match http_listener keys.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["waf_name_part", "managed_rules"],
+        "properties": {
+          "waf_name_part": { "type": "string" },
+          "managed_rules": { "type": "object" },
+          "policy_settings": { "type": "object" },
+          "custom_rules": { "type": "object" }
+        }
+      }
+    }
+  }
+}
