@@ -1,0 +1,38 @@
+# Azure Landing Zone Naming Template - Microsoft CAF Resource-Oriented Convention
+# This follows the specific example in the Microsoft Cloud Adoption Framework documentation (noting that Microsoft guidance is to _define_ a standard)
+# We recommend the workload-oriented standard to surface and clearly group the workload or platform area.  The resource type already has its own column filter, so why lead with that?
+# This template is COPIED to platform-alz-configuration/ during workspace creation.
+# It is then populated with actual values during deployment planning.
+# Not all resources will be deployed - this shows potential names based on your inputs.
+# Different teams (Entra, Azure, ADO) may have different naming preferences - adjust as needed.
+# Region choice (New Zealand North - nzn) - is just for example.
+Category,Resource Type,Example,Pattern,Uniqueness Scope,tfvars Variable,Required
+Bootstrap Required,Storage Account (tfstate),stalzprdnzn001,{st}{workload}{env}{region}{instance},GLOBALLY UNIQUE (3-24 chars lowercase no hyphens),storage_account_name,YES
+Bootstrap Required,Resource Group,rg-alz-prd-nzn-001,{rg}-{workload}-{env}-{region}-{instance},Per subscription,resource_group_name,YES
+Bootstrap Required,Root MG Display Name,Contoso ALZ Root,{Company} ALZ Root,Per tenant,root_management_group_display_name,YES
+Bootstrap Required,Root MG ID,mg-contoso-root,mg-{company}-root,Per tenant,root_management_group_id,YES
+Bootstrap Required,SP - Management,spn-alz-mgmt,spn-{workload}-{domain},Per tenant,platform_identities.management.name,YES
+Bootstrap Required,SP - Identity,spn-alz-identity,spn-{workload}-{domain},Per tenant,platform_identities.identity.name,YES
+Bootstrap Required,SP - Connectivity,spn-alz-connectivity,spn-{workload}-{domain},Per tenant,platform_identities.connectivity.name,YES
+Bootstrap Required,SP - DevOps,spn-alz-devops,spn-{workload}-{domain},Per tenant,platform_identities.devops.name,YES
+Bootstrap Required,SP - Vending,spn-alz-vending,spn-{workload}-{domain},Per tenant,platform_identities.vending.name,YES
+Bootstrap Required,ADO Project Name,Contoso-Platform-Landing-Zone,{Company}-Platform-Landing-Zone,Per ADO org (no spaces recommended),platform_project_name,YES
+Platform Management,Resource Group,rg-alz-prd-nzn-001,{rg}-{workload}-{env}-{region}-{instance},Per subscription,N/A,NO
+Platform Management,Log Analytics Workspace,log-alz-mgmt-prd-nzn-001,log-{workload}-{domain}-{env}-{region}-{instance},Per subscription,N/A,NO
+Platform Management,DCR - Change Tracking,dcr-alz-mgmt-prd-nzn-ct,dcr-{workload}-{domain}-{env}-{region}-{suffix},Per subscription,N/A,NO
+Platform Management,DCR - VM Insights,dcr-alz-mgmt-prd-nzn-vmi,dcr-{workload}-{domain}-{env}-{region}-{suffix},Per subscription,N/A,NO
+Platform Management,DCR - Defender SQL,dcr-alz-mgmt-prd-nzn-dsql,dcr-{workload}-{domain}-{env}-{region}-{suffix},Per subscription,N/A,NO
+Identity & RBAC,Resource Group,rg-alz-prd-nzn-001,{rg}-{workload}-{env}-{region}-{instance},Per subscription,N/A,NO
+Identity & RBAC,AAD Group (MG Owner PIM),sec-alz-owner-pim,sec-{purpose}-pim,Per tenant,N/A,NO
+Identity & RBAC,AAD Group (MG Owner Permanent),sec-alz-owner-permanent,sec-{purpose}-permanent,Per tenant,N/A,NO
+Connectivity Hub,Resource Group,rg-alz-prd-nzn-001,{rg}-{workload}-{env}-{region}-{instance},Per subscription,N/A,NO
+Connectivity Hub,Virtual Network,vnet-alz-hub-prd-nzn-001,vnet-{workload}-{domain}-{env}-{region}-{instance},Per subscription,N/A,NO
+Connectivity Hub,Subnet (user),sn-alz-user,sn-{workload}-{purpose},Per VNet,N/A,NO
+Connectivity Hub,Subnet (Gateway),GatewaySubnet,GatewaySubnet,Azure-reserved,N/A,NO
+Connectivity Hub,VPN Gateway,vgw-alz-hub-prd-nzn-001,vgw-{workload}-{domain}-{env}-{region}-{instance},Per subscription,N/A,NO
+Connectivity Hub,VPN Gateway PIP,pip-alz-vpngw-prd-nzn-001,pip-{workload}-{domain}-{env}-{region}-{instance},Per subscription,N/A,NO
+Connectivity Hub,Azure Firewall,afw-alz-hub-prd-nzn-001,afw-{workload}-{domain}-{env}-{region}-{instance},Per subscription,N/A,NO
+Connectivity Hub,Firewall Policy,afwp-alz-hub-prd-nzn-001,afwp-{workload}-{domain}-{env}-{region}-{instance},Per subscription,N/A,NO
+Connectivity Hub,Route Table,rt-alz-hub-prd-nzn-001,rt-{workload}-{domain}-{env}-{region}-{instance},Per subscription,N/A,NO
+Connectivity DNS,Resource Group,rg-alz-prd-nzn-001,{rg}-{workload}-{env}-{region}-{instance},Per subscription,N/A,NO
+Connectivity DNS,Private DNS Zone,priv.contoso.local,priv.{company}.local,Per tenant,N/A,NO

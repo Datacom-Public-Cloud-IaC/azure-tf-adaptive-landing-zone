@@ -1,0 +1,37 @@
+# Azure Landing Zone Naming Template
+# We recommend this naming standard as it surfaces and clearly groups the workload or platform area.  The resource type already has its own column filter, so why lead with that? 
+# This template is COPIED to platform-alz-configuration/ during workspace creation.
+# It is then populated with actual values during deployment planning.
+# Not all resources will be deployed - this shows potential names based on your inputs.
+# Different teams (Entra, Azure, ADO) may have different naming preferences - adjust as needed.
+# Region choice (Australia East - aue) - is just for example.
+Category,Resource Type,Example,Pattern,Uniqueness Scope,tfvars Variable,Required
+Bootstrap Required,Storage Account (tfstate),alzplatmgmtprdauest,{workload}plat{domain}{env}{region}st,GLOBALLY UNIQUE (3-24 chars lowercase no hyphens),storage_account_name,YES
+Bootstrap Required,Resource Group,alz-platform-mgmt-prd-aue-rg,alz-platform-{domain}-{env}-{region}-rg,Per subscription,resource_group_name,YES
+Bootstrap Required,Root MG Display Name,Contoso ALZ Root,{Company} ALZ Root,Per tenant,root_management_group_display_name,YES
+Bootstrap Required,Root MG ID,contoso-root-mg,{company}-root-mg,Per tenant,root_management_group_id,YES
+Bootstrap Required,SP - Management,SP-ALZ-platform-management,SP-ALZ-platform-{domain},Per tenant,platform_identities.management.name,YES
+Bootstrap Required,SP - Identity,SP-ALZ-platform-identity,SP-ALZ-platform-{domain},Per tenant,platform_identities.identity.name,YES
+Bootstrap Required,SP - Connectivity,SP-ALZ-platform-connectivity,SP-ALZ-platform-{domain},Per tenant,platform_identities.connectivity.name,YES
+Bootstrap Required,SP - DevOps,SP-ALZ-platform-devops,SP-ALZ-platform-{domain},Per tenant,platform_identities.devops.name,YES
+Bootstrap Required,SP - Vending,SP-ALZ-platform-vending,SP-ALZ-platform-{domain},Per tenant,platform_identities.vending.name,YES
+Bootstrap Required,ADO Project Name,Contoso-Platform-Landing-Zone,{Company}-Platform-Landing-Zone,Per ADO org (no spaces recommended),platform_project_name,YES
+Platform Management,Log Analytics Workspace,alz-mgmt-prd-aue-log,alz-{domain}-{env}-{region}-log,Per subscription,N/A,NO
+Platform Management,Log Analytics Workspace,alz-mgmt-prd-aue-log,alz-{domain}-{env}-{region}-log,Per subscription,N/A,NO
+Platform Management,DCR - Change Tracking,alz-mgmt-prd-aue-dcr-ct,alz-{domain}-{env}-{region}-dcr-ct,Per subscription,N/A,NO
+Platform Management,DCR - VM Insights,alz-mgmt-prd-aue-dcr-vmi,alz-{domain}-{env}-{region}-dcr-vmi,Per subscription,N/A,NO
+Platform Management,DCR - Defender SQL,alz-mgmt-prd-aue-dcr-dsql,alz-{domain}-{env}-{region}-dcr-dsql,Per subscription,N/A,NO
+Identity & RBAC,Resource Group,alz-id-prd-aue-rg,alz-{domain}-{env}-{region}-rg,Per subscription,N/A,NO
+Identity & RBAC,AAD Group (MG Owner PIM),AZ_MG_alz_Owner_PIM,AZ_MG_{mgid}_Owner_PIM,Per tenant,N/A,NO
+Identity & RBAC,AAD Group (MG Owner Permanent),AZ_MG_alz_Owner_Permanent,AZ_MG_{mgid}_Owner_Permanent,Per tenant,N/A,NO
+Connectivity Hub,Resource Group,alz-hub-prd-aue-rg,alz-{domain}-{env}-{region}-rg,Per subscription,N/A,NO
+Connectivity Hub,Virtual Network,alz-hub-prd-aue-vnet,alz-{domain}-{env}-{region}-vnet,Per subscription,N/A,NO
+Connectivity Hub,Subnet (user),sn-user,sn-{purpose},Per VNet,N/A,NO
+Connectivity Hub,Subnet (Gateway),GatewaySubnet,GatewaySubnet,Azure-reserved,N/A,NO
+Connectivity Hub,VPN Gateway,alz-hub-prd-aue-vgw,alz-{domain}-{env}-{region}-vgw,Per subscription,N/A,NO
+Connectivity Hub,VPN Gateway PIP,alz-hub-prd-aue-vgw-pip,alz-{domain}-{env}-{region}-vgw-pip,Per subscription,N/A,NO
+Connectivity Hub,Azure Firewall,alz-hub-prd-aue-afw,alz-{domain}-{env}-{region}-afw,Per subscription,N/A,NO
+Connectivity Hub,Firewall Policy,alz-hub-prd-aue-afwp,alz-{domain}-{env}-{region}-afwp,Per subscription,N/A,NO
+Connectivity Hub,Route Table,alz-hub-prd-aue-udr,alz-{domain}-{env}-{region}-udr,Per subscription,N/A,NO
+Connectivity DNS,Resource Group,alz-dns-prd-aue-rg,alz-{domain}-{env}-{region}-rg,Per subscription,N/A,NO
+Connectivity DNS,Private DNS Zone,priv.contoso.local,priv.{company}.local,Per tenant,N/A,NO
