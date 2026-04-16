@@ -1,0 +1,90 @@
+# Full development context — all IaC repos plus tooling.
+# Use: dcrsync build -m manifests/development-full.yaml -t vendor/
+#
+# This is the maximum-context manifest for cross-platform AI reasoning.
+# Use development-iac.yaml or development-tools.yaml for narrower scope.
+
+repositories:
+
+  # === IaC Repositories ===
+
+  # --- Platform: Automation ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azuredevops-pipeline-templates.git"
+    target_dir: "pipeline-templates"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-automation-azuredevops.git"
+    target_dir: "platform-automation-azdo"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-automation-github.git"
+    target_dir: "platform-automation-github"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-automation-runners.git"
+    target_dir: "platform-automation-runners"
+
+  # --- Platform: Management ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-management-policy.git"
+    target_dir: "platform-management-policy"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-management-amba.git"
+    target_dir: "platform-management-amba"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-management-iaas.git"
+    target_dir: "platform-management-iaas"
+
+  # --- Platform: Identity ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-identity-rbac.git"
+    target_dir: "platform-identity-rbac"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-identity-adds.git"
+    target_dir: "platform-identity-adds"
+
+  # --- Platform: Connectivity ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-hub.git"
+    target_dir: "platform-connectivity-hub"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-dns.git"
+    target_dir: "platform-connectivity-dns"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-afw-policy.git"
+    target_dir: "platform-connectivity-afw-policy"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-vwan.git"
+    target_dir: "platform-connectivity-vwan"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-bastion.git"
+    target_dir: "platform-connectivity-bastion"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-arc.git"
+    target_dir: "platform-connectivity-arc"
+
+  # --- Governance ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-governance.git"
+    target_dir: "governance"
+
+  # --- Application Landing Zone Vending ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-applz-vending-azuredevops.git"
+    target_dir: "applz-vending-azdo"
+
+  # --- Workloads ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-workload-virtualmachines.git"
+    target_dir: "workload-virtualmachines"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-workload-ai-landing-zone.git"
+    target_dir: "workload-ai-landing-zone"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-workload-sql-managedinstance.git"
+    target_dir: "workload-sql-managedinstance"
+
+  # --- Testing ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-alz-integration-testing.git"
+    target_dir: "alz-integration-testing"
+
+  # === Tooling Repositories ===
+
+  # --- Deployment Tooling ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-agentic-helper.git"
+    target_dir: "agentic-helper"
+
+  # --- Documentation ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/alz-hld-doc-gen.git"
+    target_dir: "doc-gen"

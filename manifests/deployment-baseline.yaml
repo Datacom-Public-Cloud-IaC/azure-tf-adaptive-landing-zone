@@ -1,0 +1,23 @@
+# Baseline ALZv2 repository manifest for human-led deployments (lab/customer).
+# Use this with: dcrsync build --manifest manifests/deployment-baseline.yaml --target <repoRoot>
+repositories:
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azuredevops-pipeline-templates.git"
+    target_dir: "pipeline-templates"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-automation-azuredevops.git"
+    target_dir: "platform-automation-azdo"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-management-policy.git"
+    target_dir: "platform-management-policy"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-identity-rbac.git"
+    target_dir: "platform-identity-rbac"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-hub.git"
+    target_dir: "platform-connectivity-hub"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-dns.git"
+    target_dir: "platform-connectivity-dns"
+
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-connectivity-afw-policy.git"
+    target_dir: "platform-connectivity-afw-policy"

@@ -1,0 +1,5 @@
+# Vendored repos (populated by dcrsync, not committed)
+/vendor/
+
+# OS
+.DS_Store

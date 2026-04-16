@@ -1,0 +1,15 @@
+# Tooling repositories for the Datacom ALZ platform.
+# Use: dcrsync build -m manifests/development-tools.yaml -t vendor/
+#
+# These are the tools that support ALZ deployment and documentation,
+# vendored here so AI can reason about the full toolchain.
+
+repositories:
+
+  # --- Deployment Tooling ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-agentic-helper.git"
+    target_dir: "agentic-helper"
+
+  # --- Documentation ---
+  - url: "https://github.com/Datacom-Public-Cloud-IaC/alz-hld-doc-gen.git"
+    target_dir: "doc-gen"

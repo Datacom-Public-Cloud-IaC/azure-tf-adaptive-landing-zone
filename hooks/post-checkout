@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Git post-checkout hook: auto-symlink vendor/ to shared dev cache for worktrees.
+# Install: cp hooks/post-checkout .git/hooks/ && chmod +x .git/hooks/post-checkout
+
+VENDOR_CACHE="$HOME/.cache/alz-dev-vendor"
+
+if [ -d "$VENDOR_CACHE" ] && [ ! -e "vendor" ]; then
+    ln -sfn "$VENDOR_CACHE" vendor
+    echo "[hook] Linked vendor/ → $VENDOR_CACHE"
+fi

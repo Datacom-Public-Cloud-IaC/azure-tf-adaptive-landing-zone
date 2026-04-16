@@ -1,0 +1,82 @@
+name: Task
+description: A general engineering task (refactoring, documentation, CI, etc.)
+title: "[Task]: "
+labels: ["task"]
+body:
+  - type: dropdown
+    id: primary-repo
+    attributes:
+      label: Primary Repository
+      description: Which repository is this task primarily for?
+      options:
+        - azure-tf-platform-automation-azuredevops
+        - azure-tf-platform-automation-github
+        - azure-tf-platform-automation-runners
+        - azuredevops-pipeline-templates
+        - azure-tf-platform-management-policy
+        - azure-tf-platform-management-amba
+        - azure-tf-platform-management-iaas
+        - azure-tf-platform-identity-rbac
+        - azure-tf-platform-identity-adds
+        - azure-tf-platform-connectivity-hub
+        - azure-tf-platform-connectivity-dns
+        - azure-tf-platform-connectivity-afw-policy
+        - azure-tf-platform-connectivity-vwan
+        - azure-tf-platform-connectivity-bastion
+        - azure-tf-platform-connectivity-arc
+        - azure-tf-governance
+        - azure-tf-applz-vending-azuredevops
+        - azure-tf-workload-virtualmachines
+        - azure-tf-workload-ai-landing-zone
+        - azure-tf-workload-sql-managedinstance
+        - azure-tf-alz-integration-testing
+        - azure-tf-platform-agentic-helper
+        - alz-hld-doc-gen
+        - azure-tf-adaptive-landing-zone
+        - cross-cutting (multiple repos)
+    validations:
+      required: true
+  - type: checkboxes
+    id: affected-repos
+    attributes:
+      label: Affected Repositories
+      description: Select any additional repositories involved.
+      options:
+        - label: azure-tf-platform-automation-azuredevops
+        - label: azure-tf-platform-automation-github
+        - label: azure-tf-platform-automation-runners
+        - label: azuredevops-pipeline-templates
+        - label: azure-tf-platform-management-policy
+        - label: azure-tf-platform-management-amba
+        - label: azure-tf-platform-management-iaas
+        - label: azure-tf-platform-identity-rbac
+        - label: azure-tf-platform-identity-adds
+        - label: azure-tf-platform-connectivity-hub
+        - label: azure-tf-platform-connectivity-dns
+        - label: azure-tf-platform-connectivity-afw-policy
+        - label: azure-tf-platform-connectivity-vwan
+        - label: azure-tf-platform-connectivity-bastion
+        - label: azure-tf-platform-connectivity-arc
+        - label: azure-tf-governance
+        - label: azure-tf-applz-vending-azuredevops
+        - label: azure-tf-workload-virtualmachines
+        - label: azure-tf-workload-ai-landing-zone
+        - label: azure-tf-workload-sql-managedinstance
+        - label: azure-tf-alz-integration-testing
+        - label: azure-tf-platform-agentic-helper
+        - label: alz-hld-doc-gen
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What needs to be done?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: How do we know this task is complete?
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
