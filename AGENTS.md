@@ -19,7 +19,7 @@ This is an **engineering hub**, not the source-of-truth repository for IaC modul
 
 ### Workflow: creating a new workload module
 
-1. **Use this repo for context** — vendor in the relevant repos to understand patterns and conventions
+1. **Use this repo for context** — vendor the relevant repos into `vendor/` to understand patterns and conventions
 2. **Create the new repo** under `Datacom-Public-Cloud-IaC/` following the naming convention:
    - Platform modules: `azure-tf-platform-{domain}-{component}` (e.g., `azure-tf-platform-connectivity-hub`)
    - Workload modules: `azure-tf-workload-{name}` (e.g., `azure-tf-workload-sharedappgateway`)
@@ -158,9 +158,9 @@ Fixes Datacom-Public-Cloud-IaC/azure-tf-adaptive-landing-zone#123
 
 ## Design principles
 
-- **Hub, not a code repo** — this repo contains no module code. It vendors code from other repos for AI context and cross-repo reasoning.
+- **Hub, not a code repo** — this repo does not own module code. It vendors code from other repos for AI context and cross-repo reasoning.
 - **Read-only vendoring** — vendored repos are for AI context, not for making changes. Work in the actual repo.
-- **One module = one repo** — every IaC module (platform or workload) lives in its own repo under `Datacom-Public-Cloud-IaC/`
+- **One module = one repo** — every IaC module (platform or workload) is authored and maintained in its own repo under `Datacom-Public-Cloud-IaC/`; vendored copies may exist here locally for context, but the source of truth remains the per-module repo
 - **Manifest-driven** — all repo lists are in YAML manifests, not hardcoded
 - **Cache-isolated** — this repo and the agentic-helper use separate vendor caches
 - **Purpose-named** — manifests are named by their use case, not by size
