@@ -11,11 +11,11 @@ The Datacom ALZ platform spans 20+ repositories. This repo exists to:
 
 > **Not for deployment.** To deploy ALZ for a customer, use [azure-tf-platform-agentic-helper](https://github.com/Datacom-Public-Cloud-IaC/azure-tf-platform-agentic-helper) directly.
 
-## ⚠️ This repo does NOT contain module code
+## ⚠️ This repo does NOT own or maintain module code
 
-This is an **engineering hub**, not a code repository. Each IaC module lives in its own repo under `Datacom-Public-Cloud-IaC/`. The `vendor/` directory provides read-only copies for cross-repo AI reasoning.
+This is an **engineering hub**, not the source-of-truth repository for IaC modules. Each IaC module is owned and maintained in its own repo under `Datacom-Public-Cloud-IaC/`. This repo may include read-only vendored copies under `vendor/` for cross-repo AI reasoning.
 
-**When creating a new module**, create it as a new repository — do not add code here.
+**When creating a new module**, create it as a new repository — do not add or maintain module code here as the source of truth.
 
 ### Workflow: creating a new workload module
 
